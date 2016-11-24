@@ -5,7 +5,6 @@ import Core.FileProducer;
 import Utils.Common;
 
 import java.util.concurrent.*;
-import java.util.logging.Logger;
 
 /**
  * Created by ouhiroshi on 2016/11/23.

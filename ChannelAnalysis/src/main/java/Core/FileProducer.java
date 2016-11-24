@@ -1,5 +1,6 @@
 package Core;
 
+import DBHelper.DBManager;
 import Download.DownloadManager;
 import Entity.URLEntity;
 import ReadSource.ReadSourceFile;
@@ -8,6 +9,8 @@ import Utils.IRLog;
 import Utils.IdentifyURL;
 import Utils.MD5;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -46,6 +49,9 @@ public class FileProducer implements Runnable {
                 String stringMD5 = MD5.getMD5(downloadURL);
                 entity.setStringURL(urlString);
                 entity.setStringMD5(stringMD5);
+                if (isExist(stringMD5)) {
+                    continue;
+                }
                 if (!DownloadManager.donwload(downloadURL, Common.APKS_FILE_PATCH + stringMD5)) {
                     continue;
                 }
@@ -71,5 +77,20 @@ public class FileProducer implements Runnable {
             urlString = components[0];
         }
         return urlString;
+    }
+    //判断是否已经存在 若已经存在则不下载
+    private boolean isExist(String stringMD5) {
+        String sql = "SELECT 1 FROM driver_app WHERE urlmd5 = '" + stringMD5 + "';";
+        DBManager db = new DBManager(sql);
+        try {
+            ResultSet rs = db.pst.executeQuery();
+            if (rs.next() == false) {
+                return false;
+            } else  {
+                return true;
+            }
+        } catch (SQLException e) {
+            return false;
+        }
     }
 }
