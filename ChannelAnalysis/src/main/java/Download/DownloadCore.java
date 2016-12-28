@@ -3,7 +3,7 @@ package Download;
 import Utils.IRLog;
 import Utils.MD5;
 import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
+import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
@@ -15,10 +15,10 @@ import java.io.*;
  */
 public class DownloadCore {
     public static boolean downLoad(String urlString, String filePatch) {
+        CloseableHttpClient httpClient = HttpClients.createDefault();
+        HttpGet httpGet = new HttpGet(urlString);
         try {
-            CloseableHttpClient httpClient = HttpClients.createDefault();
-            HttpGet httpGet = new HttpGet(urlString);
-            HttpResponse httpResponse = httpClient.execute(httpGet);
+            CloseableHttpResponse httpResponse = httpClient.execute(httpGet);
             HttpEntity entity = httpResponse.getEntity();
             InputStream in = entity.getContent();
             long length = entity.getContentLength();

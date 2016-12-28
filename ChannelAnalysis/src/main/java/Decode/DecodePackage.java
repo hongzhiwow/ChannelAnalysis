@@ -1,11 +1,9 @@
 package Decode;
 
-import Core.FileConsumer;
 import Utils.Common;
 import Utils.IRLog;
 import brut.androlib.AndrolibException;
 import brut.androlib.ApkDecoder;
-import brut.androlib.res.data.ResPackage;
 import brut.directory.DirectoryException;
 import org.dom4j.Attribute;
 import org.dom4j.Document;
@@ -17,7 +15,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Set;
 
 /**
  * Created by ouhiroshi on 2016/11/16.
